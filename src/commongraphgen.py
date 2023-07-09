@@ -46,7 +46,7 @@ def base_graph(problem_id):
                    failed=False,
                    )
 
-    for test_no in range(1, get_last_file_number()+1):
+    for test_no in range(1, get_last_file_number(f"./result/{problem_id}")+1):
         test_node = t_no(test_no)
         G.add_node(test_node,
                    line_no=0,

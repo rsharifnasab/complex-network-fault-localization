@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
+import signal
 from typing import Dict
 import sys
 from os import system as shell
 
 import networkx as nx
 import angr
+from angrutils import *
+from matplotlib import pyplot as plt
 
 from commongraphgen import l_no, base_graph
 from conf import EXTENSION
@@ -13,6 +16,22 @@ from conf import EXTENSION
 
 PROBLEM_ID = 1111
 DG_PATH = "/home/roozbeh/Desktop/test-debug/project/DG/"
+
+
+class timeout:
+    def __init__(self, seconds=1, error_message='Timeout'):
+        self.seconds = seconds
+        self.error_message = error_message
+
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
 
 
 def compile_clang(question_path):
@@ -84,17 +103,39 @@ def addr2line_cached(addr: str) -> int | None:
     return addr_cache.get(addr)
 
 
+def calculate_ddg(b):
+    cfg = b.analyses.CFGEmulated(
+        keep_state=True,
+        state_add_options=angr.options.refs,
+        context_sensitivity_level=2,
+    )
+    plot_cfg(cfg, "ais3_cfg",
+             asminst=True,
+             remove_imports=True,
+             remove_path_terminator=True)
+
+    # cfg = b.analyses.CFGFast(
+    #   keep_state=True,
+    # )
+    # print("------cfg complete----")
+    # _ = b.analyses.CDG(cfg)
+    # print("------cdg complete----")
+    ddg = b.analyses.DDG(cfg)
+    # print("------ddg complete----")
+    return ddg
+
+
 def DDA(question_path):
     res = []
     b = angr.Project(f"./result/{question_path}/angr_bin",
-                     load_options={"auto_load_libs": False})
+                     load_options={"auto_load_libs": False}, )
 
-    cfg = b.analyses.CFGEmulated(
-        keep_state=True,
-        state_add_options=angr.sim_options.refs,
-        context_sensitivity_level=2)
-    _ = b.analyses.CDG(cfg)
-    ddg = b.analyses.DDG(cfg)
+    try:
+        with timeout(seconds=10):
+            ddg = calculate_ddg(b)
+    except TimeoutError:
+        print(f"error in calculating ddg for {question_path}")
+        return []
     for edge in ddg.graph.edges:
         from_str, to_str = edge
         from_str = str(from_str)
@@ -117,7 +158,6 @@ def load_dataset():
     _, G = base_graph(PROBLEM_ID)
     compile_gcc(PROBLEM_ID)
     edges = DDA(PROBLEM_ID)
-    assert edges
     for from_line, to_line in edges:
 
         assert from_line <= src_lines+1

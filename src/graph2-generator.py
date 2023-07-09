@@ -61,12 +61,12 @@ def load_dataset():
             to_line = int(to.split(":")[0]) + 1
             from_node = l_no(from_line)
             to_node = l_no(to_line)
-            # assert from_line <= src_lines+4
-            # assert to_line <= src_lines+4
+            # assert from_line <= src_lines+2
+            # assert to_line <= src_lines+2
 
             # assert from_node in G.nodes, f"unknown node {from_node} in {G.nodes} ({line})"
             # assert to_node in G.nodes, f"unknown node {from_node} in {G.nodes} ({line})"
-            if from_node in G.nodes or to_node in G.nodes:
+            if from_node in G.nodes and to_node in G.nodes:
                 G.add_edge(from_node, to_node)
 
     return f"type-2-{PROBLEM_ID}", G

@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
-# from concurrent.futures import ProcessPoolExecutor
-# from multiprocessing.pool import Pool
 import time
 from random import choices as random_choices
 from statistics import mean
 from typing import Callable
 
 import networkx as nx
-from matplotlib import pyplot as plt
 
 measure_on = False
 
@@ -71,7 +68,7 @@ class GraphStats:
         return (2 * self.edges_count()) / possible_edges
 
     def density(self):
-        return f"{self.__density()*100:.4f}%"
+        return f"{self.__density()*100:.2f}%"
 
     @measure_time
     def diameter(self):
@@ -149,7 +146,8 @@ class GraphStats:
     def select_top5(d):
         result = []
         for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True):
-            result.append((k, v))
+            if "test" not in k:
+                result.append((k, v))
         return result[:5]
 
     @staticmethod
@@ -157,7 +155,7 @@ class GraphStats:
         top5 = GraphStats.select_top5(d)
         result = ""
         for k, v in top5:
-            result += f"{k}:{v:.5f} "
+            result += f"{k}:{v:.3f} "
         return result
 
     @measure_time
@@ -192,7 +190,7 @@ class GraphStats:
             print(line)
         print()
 
-    @ staticmethod
+    @staticmethod
     def apply(tup):
         result = ""
         for e in tup:
@@ -211,11 +209,6 @@ class GraphStats:
             ("diameter:", self.diameter),
             ("effective diameter:", self.effective_diameter),
 
-            ("avg clustering coeff:", self.avg_clustering_coeff),
-            ("Transitivity", self.transitivity),
-            ("avg shortest path len", self.avg_shortest_path_len),
-            ("assortativity (degree correlation)", self.assortativity),
-
             ("betweenness centrality", self.betweenness_centrality),
             ("pagerank centrality", self.pagerank_centerality),
             ("degree centrality", self.degree_centrality),
@@ -227,7 +220,7 @@ class GraphStats:
 
 def main(dataset_loader):
     name, G = dataset_loader()
-    stats = GraphStats(name, G, slow=False)
+    stats = GraphStats(name, G, slow=True)
     stats.print_summary()
 
 
