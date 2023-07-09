@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
-# from concurrent.futures import ProcessPoolExecutor
-# from multiprocessing.pool import Pool
 import time
 from random import choices as random_choices
 from statistics import mean
 from typing import Callable
 
 import networkx as nx
-from matplotlib import pyplot as plt
 
 measure_on = False
 
@@ -192,7 +189,7 @@ class GraphStats:
             print(line)
         print()
 
-    @ staticmethod
+    @staticmethod
     def apply(tup):
         result = ""
         for e in tup:
@@ -227,7 +224,7 @@ class GraphStats:
 
 def main(dataset_loader):
     name, G = dataset_loader()
-    stats = GraphStats(name, G, slow=False)
+    stats = GraphStats(name, G, slow=True)
     stats.print_summary()
 
 
