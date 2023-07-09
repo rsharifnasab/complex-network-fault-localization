@@ -34,7 +34,9 @@ def load_dataset():
 
             assert line_node in G.nodes, f"line node {line_node} not found in graph {G.nodes}"
             assert test_node in G.nodes, f"test node {test_node} not found in graph {G.nodes}"
-            if int(line_data["count"]) >= 1 and G.nodes[test_node]["failed"]:
+            if (int(line_data["count"]) >= 1
+                    # and G.nodes[test_node]["failed"]
+                ):
                 G.add_edge(test_node, line_node)
 
     return f"type-1-{PROBLEM_ID}", G

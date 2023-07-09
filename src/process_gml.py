@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import json
 import sys
 from pathlib import Path
 
 from stats import GraphStats
 import networkx as nx
+from os import system as shell
 
 
 def process_gml_by_path(path):
@@ -13,6 +13,13 @@ def process_gml_by_path(path):
     G = nx.read_gml(path)
     stats = GraphStats(name, G, slow=False)
     stats.print_summary()
+
+    shell(f"cat ./result/{name.split('-')[2]}/sol_info.txt | grep 'fault'")
+    print(f"failed tests: ", end="")
+    print(" - ".join([line.strip()
+          for line in open(f"./result/{name.split('-')[2]}/failed.txt")]))
+
+    # shell(f"cat ./result/{name.split('-')[2]}/failed.txt")
 
 
 if __name__ == "__main__":

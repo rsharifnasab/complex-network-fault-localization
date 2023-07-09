@@ -7,6 +7,8 @@ from os import system as shell
 
 import networkx as nx
 import angr
+from angrutils import *
+from matplotlib import pyplot as plt
 
 from commongraphgen import l_no, base_graph
 from conf import EXTENSION
@@ -107,14 +109,19 @@ def calculate_ddg(b):
         state_add_options=angr.options.refs,
         context_sensitivity_level=2,
     )
+    plot_cfg(cfg, "ais3_cfg",
+             asminst=True,
+             remove_imports=True,
+             remove_path_terminator=True)
+
     # cfg = b.analyses.CFGFast(
     #   keep_state=True,
     # )
     # print("------cfg complete----")
     # _ = b.analyses.CDG(cfg)
-    print("------cdg complete----")
+    # print("------cdg complete----")
     ddg = b.analyses.DDG(cfg)
-    print("------ddg complete----")
+    # print("------ddg complete----")
     return ddg
 
 
