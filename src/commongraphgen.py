@@ -49,11 +49,9 @@ def base_graph(problem_id):
     for test_no in range(1, get_last_file_number()+1):
         test_node = t_no(test_no)
         G.add_node(test_node,
-                   **{
-                       "line_no": 0,
-                       "faulty": False,
-                       "failed": (test_no in failed_tests)
-                   }
+                   line_no=0,
+                   faulty=False,
+                   failed=(test_no in failed_tests),
                    )
 
     return f"type-0-{problem_id}", G
