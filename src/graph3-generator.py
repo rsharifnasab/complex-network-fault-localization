@@ -15,7 +15,7 @@ from conf import EXTENSION
 
 
 PROBLEM_ID = 1111
-DG_PATH = "/home/roozbeh/Desktop/test-debug/project/DG/"
+DG_PATH = "../DG/"
 
 
 class timeout:
@@ -51,10 +51,6 @@ def compile_clang(question_path):
 
 
 def DDA_llvm_dda(question_path):
-    """
-    /home/roozbeh/Desktop/test-debug/project/DG/dg/build/tools/llvm-cda-dump  ../cov/foo.ll --c-lines
-    --dbg --dot --graph-only --pta=inv
-    """
     retcode = shell(f"""
         {DG_PATH}/dg/build/tools/llvm-dda-dump \
                 ./result/{question_path}/ir.ll \

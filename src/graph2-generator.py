@@ -12,7 +12,7 @@ from conf import EXTENSION
 
 
 PROBLEM_ID = 1111
-DG_PATH = "/home/roozbeh/Desktop/test-debug/project/DG/"
+DG_PATH = "../DG/"
 
 
 def compile(question_path):
@@ -32,9 +32,6 @@ def compile(question_path):
 
 
 def CDA(question_path):
-    """
-    /home/roozbeh/Desktop/test-debug/project/DG/dg/build/tools/llvm-cda-dump  ../cov/foo.ll --c-lines
-    """
     retcode = shell(f"""
         {DG_PATH}/dg/build/tools/llvm-cda-dump \
                 ./result/{question_path}/ir.ll \
