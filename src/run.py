@@ -2,20 +2,14 @@
 import os
 import re
 from re import findall
-import argparse
-from os.path import isfile, isdir, join, basename
-from os.path import exists as path_exists
+from os.path import isfile, join
 from os import system as shell
 from os import remove, makedirs, listdir
 import shutil
-from sys import exit as sys_exit
-from shutil import rmtree, copyfile, copy
-from filecmp import cmp
+from shutil import rmtree
 import sys
-from typing import is_typeddict
 
-
-from conf import *
+from conf import EXTENSION
 
 TEST_DIR = f"./sandbox/tests"
 IN_FILES = TEST_DIR + "/in"

@@ -182,18 +182,6 @@ class GraphStats:
         result = nx.betweenness_centrality(self.undirected, k=k_samples)
         return self.str_top5(result)
 
-    def plot_degree_distribution(self, save_dir):
-        degree_freq = nx.degree_histogram(self.undirected)
-        degrees = range(len(degree_freq))
-        plt.figure(figsize=(12, 8))
-        plt.loglog(degrees[1:], degree_freq[1:], 'bo-')
-        plt.xlabel('Degree')
-        plt.ylabel('Frequency')
-        plt.title(self.name)
-        addr = f"{save_dir}/{self.name}.png"
-        plt.savefig(addr)
-        return addr
-
     def __str__(self):
         return f"{self.name} Graph (nodes: #{self.node_count()})"
 
@@ -232,9 +220,6 @@ class GraphStats:
             ("pagerank centrality", self.pagerank_centerality),
             ("degree centrality", self.degree_centrality),
             ("closeness centrality", self.closeness_centrality),
-
-            # ("plot degree distribution",
-            # lambda: self.plot_degree_distribution("../report")),
         ]
 
         return map(GraphStats.apply, tasks)

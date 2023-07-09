@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-import os
-from shutil import rmtree
-
-
-from conf import *
+from conf import LANG, EXTENSION, connect
 
 
 def sources(cur, problems_id, count=5):

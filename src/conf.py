@@ -1,5 +1,3 @@
-
-
 from mysql.connector import connect as mysql_connect
 LANG = "GNU C++11"
 # LANG = "GNU C"

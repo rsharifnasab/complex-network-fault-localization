@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 
 from typing import Dict
-from collections import defaultdict
-import json
 import sys
 from os import system as shell
 
 import networkx as nx
-from run import get_last_file_number
-from conf import *
 import angr
 
 from commongraphgen import l_no, base_graph
+from conf import EXTENSION
 
 
 PROBLEM_ID = 1111
@@ -60,7 +57,7 @@ def compile_gcc(question_path):
     assert retcode == 0, "compile error"
 
 
-def addr2line(addr):
+def addr2line(addr: str) -> int | None:
     question_path = PROBLEM_ID
     # print(f"converting address {addr}")
     shell(f"""
@@ -78,10 +75,10 @@ def addr2line(addr):
         assert False
 
 
-addr_cache: Dict[int, str] = {}
+addr_cache: Dict[str, int | None] = {}
 
 
-def addr2line_cached(addr):
+def addr2line_cached(addr: str) -> int | None:
     if addr not in addr_cache.keys():
         addr_cache[addr] = addr2line(addr)
     return addr_cache.get(addr)

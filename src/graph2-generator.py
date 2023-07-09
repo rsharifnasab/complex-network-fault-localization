@@ -5,10 +5,10 @@ import sys
 from os import system as shell
 
 import networkx as nx
-from run import get_last_file_number
-from conf import *
 
 from commongraphgen import l_no, base_graph
+
+from conf import EXTENSION
 
 
 PROBLEM_ID = 1111
