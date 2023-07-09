@@ -102,11 +102,12 @@ def compile():
 
 
 def gcov_report(i):
-    shell(""" cd sandbox && \
+    retcode = shell(""" cd sandbox && \
             gcovr --json --exclude-throw-branches \
             | jq '.files[0]' > gcov.json && \
             cd ..
           """)
+    assert retcode == 0, "failed to call gcovr"
     shutil.move("./sandbox/gcov.json", f"./sandbox/gcov-{i}.json")
 
 

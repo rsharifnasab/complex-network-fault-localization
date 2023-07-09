@@ -4,3 +4,4 @@ matplotlib
 angr
 angrutils
 mysql-connector-python
+gcovr
