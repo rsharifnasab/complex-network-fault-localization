@@ -2,8 +2,5 @@
 
 set -euo pipefail
 
-(
-    cd mysql
-    ./setup.sh
-)
-pacman --needed -Syu mysql-workbench python3 llvm
+pacman --needed -Syu mysql-workbench python3 llvm gnome-keyring
+proxychains -q pip3 install -r ./requirements.txt
