@@ -2,4 +2,5 @@ scipy
 networkx
 matplotlib
 angr
+angrutils
 mysql-connector-python
