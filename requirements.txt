@@ -2,6 +2,6 @@ scipy
 networkx
 matplotlib
 angr
-angrutils
+angr-utils
 mysql-connector-python
 gcovr
