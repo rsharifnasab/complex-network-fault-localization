@@ -3,3 +3,4 @@ networkx
 matplotlib
 angr
 mysql-connector-python
+gcovr
